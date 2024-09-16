@@ -267,6 +267,14 @@ class SecureDotEnvAnnotationGenerator
     if (!jsonMap.containsKey(key)) {
       throw Exception('Key \$key not found in .env file');
     }
+    
+    if (jsonMap[key] == null) {
+      if (null is T) {
+        return null as T;
+      } else {
+        throw Exception('Key \$key is null');
+      }
+    }
     final encryptedValue = jsonMap[key] as String;
     final decryptedValue = base64.decode(encryptedValue);
     final stringValue = String.fromCharCodes(decryptedValue);
